@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Route prefix: /api/v1
 Route::group(['prefix' => 'v1'], function () {
+    Route::get('events/active-events', [EventController::class, 'getActiveEvents'])->name('events.active');
     Route::resource('events', EventController::class);
 });
 

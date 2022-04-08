@@ -3,9 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
-class CreateEventsTable extends Migration
+class AlterTableEvents extends Migration
 {
     /**
      * Run the migrations.
@@ -14,14 +13,9 @@ class CreateEventsTable extends Migration
      */
     public function up()
     {
-        Schema::create('events', function (Blueprint $table) {
-            // $table->uuid('id')->primary()->default(DB::raw('UUID()'));
-            $table->uuid('id')->default(DB::raw('(UUID())'));
-            $table->string('name');
-            $table->string('slug')->unique();
+        Schema::table('events', function (Blueprint $table) {
             $table->timestamp('startAt');
             $table->timestamp('endAt');
-            $table->timestamps();
         });
     }
 
@@ -32,6 +26,9 @@ class CreateEventsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('events');
+        Schema::table('matches', function (Blueprint $table) {
+            $table->dropColumn('startAt');
+            $table->dropColumn('endAt');
+        });
     }
 }

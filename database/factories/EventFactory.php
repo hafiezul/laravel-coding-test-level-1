@@ -19,6 +19,9 @@ class EventFactory extends Factory
             'slug' => $this->faker->unique()->slug(),
             'created_at' => now(),
             'updated_at' => now(),
+            'startAt' => now(),
+            // end after 1 month
+            'endAt' => now()->addMonth(),
         ];
     }
 }

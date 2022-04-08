@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Http\Requests\EventRequest;
 
 class EventController extends Controller
 {
@@ -33,9 +34,12 @@ class EventController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EventRequest $request)
     {
-        //
+        
+        $event = Event::create($request->all());
+        return response()->json($event, 201);
+
     }
 
     /**
@@ -46,7 +50,11 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        //
+        
+        $event = Event::findOrFail($event->id);
+
+        return response()->json($event);
+
     }
 
     /**
@@ -67,9 +75,14 @@ class EventController extends Controller
      * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Event $event)
+    public function update(EventRequest $request, Event $event)
     {
-        //
+        
+        $event = Event::findOrFail($event->id);
+        $event->update($request->all());
+
+        return response()->json($event, 200);
+
     }
 
     /**
@@ -80,6 +93,24 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
+            
+        $event = Event::findOrFail($event->id);
+        $event->delete();
+
+        return response()->json(null, 204);
+    
+    }
+
+    /**
+     * Get active events
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getActiveEvents()
+    {
+        // Get active events where startAt is less than now and endAt is greater than now
+        $events = Event::where('startAt', '<', now())->where('endAt', '>', now())->get();
+
+        return response()->json($events);
     }
 }
