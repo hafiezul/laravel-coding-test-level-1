@@ -25,7 +25,7 @@ class EventRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'slug' => ['required', 'unique:events,slug,'.$this->id, 'max:255'],
+            'slug' => ['required', 'unique:events,slug,'.$this->id, 'max:255', 'alpha_dash'],
             'startAt' => ['required', 'date'],
             'endAt' => ['required', 'date'],
         ];
