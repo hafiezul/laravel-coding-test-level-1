@@ -15,4 +15,8 @@ class Event extends Model
         'startAt',
         'endAt',
     ];
+
+    protected $casts = [
+        'id' => 'string'
+    ];
 }
